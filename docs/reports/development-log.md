@@ -12,10 +12,10 @@
 - Initial commit pushed
 - MongodDB Atlass account created
 - Render Account created
+- Backend Setup & Initialisation
 
 ### Isuues Encountered 
 None
 
 ### Next Actions
-- Backend Setup & Initialisation
 - Frontend Setup & Initialisation

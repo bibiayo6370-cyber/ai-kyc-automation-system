@@ -1,23 +1,19 @@
 {
-  "name": "backend",
+  "name": "ai-kyc-backend",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
-    "dev": "nodemon src/server.js"
+    "dev": "node --watch --env-file=.env src/server.js"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
-  "description": "",
+  "author": "Babajide Ibiayo",
+  "license": "UNLICENSED",
+  "type": "module",
+  "description": "Backend API for AI-Driven KYC Automation System",
   "dependencies": {
     "cors": "^2.8.6",
-    "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "mongoose": "^9.7.0"
-  },
-  "devDependencies": {
-    "nodemon": "^3.1.14"
   }
 }

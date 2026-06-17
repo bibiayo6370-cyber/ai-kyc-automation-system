@@ -1,0 +1,23 @@
+# Node Modules
+node_modules/
+
+# Environment Variables
+.env
+
+# Logs
+logs/
+*.log
+
+# Build Files
+dist/
+build/
+
+# Uploads
+uploads/temp/
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/

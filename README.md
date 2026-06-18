@@ -21,6 +21,19 @@ The project aims to:
 
 ---
 
+## Engineering Principles
+
+The project will use modern JavaScript and modern Node.js features by default, including ES Modules, native environment variable support, and native file watching, while minimizing unnecessary dependencies.
+
+- Modern JavaScript (ES Modules)
+- Native Node.js features where available
+- Minimal external dependencies
+- Security-first design
+- Layered architecture
+- API versioning
+
+---
+
 ## Key Features
 
 ### Customer Module

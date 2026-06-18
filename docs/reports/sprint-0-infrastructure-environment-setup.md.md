@@ -49,3 +49,5 @@
 - Implement JWT authentication
 - Implement protected routes
 - Initialize frontend application
+
+

@@ -2,11 +2,21 @@
   "name": "ai-kyc-backend",
   "version": "1.0.0",
   "main": "src/server.js",
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "scripts": {
     "start": "node src/server.js",
     "dev": "node --watch --env-file=.env src/server.js"
   },
-  "keywords": [],
+  "keywords": [
+    "kyc",
+    "ai",
+    "mongodb",
+    "nodejs",
+    "mit-project",
+    "financial-services"
+  ],
   "author": "Babajide Ibiayo",
   "license": "UNLICENSED",
   "type": "module",

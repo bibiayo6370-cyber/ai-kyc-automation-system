@@ -1,19 +1,27 @@
 import express, { json } from "express";
 import cors from "cors";
+import { APP_NAME } from "./config/constants.js";
 
 import connectDB from "./config/database.js";
 
 const app = express();
 
-connectDB();
+await connectDB();
 
 app.use(cors());
 app.use(json());
 
-app.get("/", (req, res) => {
+app.get("/health", (req, res) => {
   res.status(200).json({
     success: true,
-    message: "AI KYC Automation System API Running"
+    status: "healthy"
+  });
+});
+
+app.get("/api/v1", (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: `${APP_NAME} API Running`
   });
 });
 

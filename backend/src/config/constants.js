@@ -1,0 +1,1 @@
+export const APP_NAME = "AI-Driven KYC Automation System";

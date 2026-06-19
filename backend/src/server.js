@@ -1,9 +1,14 @@
 import express, { json } from "express";
 import cors from "cors";
 import { APP_NAME } from "./config/constants.js";
-import { authRoutes } from "./routes/authRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
 
 import connectDB from "./config/database.js";
+
+if (!process.env.JWT_SECRET) {
+  console.error("Missing JWT_SECRET");
+  process.exit(1);
+}
 
 const app = express();
 

@@ -44,6 +44,27 @@ export async function registerUser(userData) {
   };
 }
 
+export async function loginUser(email, password) {
+  // query db for user
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    throw new Error("Invalid email or password");
+  }
+
+  const passwordMatch = await bcrypt.compare(password, user.passwordHash);
+
+  if (!passwordMatch) {
+    throw new Error("Invalid email or password");
+  }
+
+  const token = generateToken(user);
+
+  return {
+    user,
+    token
+  };
+}
 
 
 

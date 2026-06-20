@@ -232,7 +232,7 @@ Pending Deliverables:
 
 Estimated Completion:
 
-Approximately 60–70% of Sprint 1 deliverables have been completed successfully.
+Approximately 80–85% of Sprint 1 deliverables have been completed successfully.
 
 ### Next Actions
 

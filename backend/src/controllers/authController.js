@@ -31,7 +31,8 @@ export async function login(req, res) {
     const result = await loginUser(email, password);
 
     return res.status(200).json({
-      success: "Login successful",
+      success: "true",
+      message: "Login successful",
       token: result.token,
       user: {
         id: result.user._id,

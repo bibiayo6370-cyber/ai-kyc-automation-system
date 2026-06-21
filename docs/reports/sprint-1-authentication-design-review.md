@@ -220,25 +220,38 @@ Completed Deliverables:
 * Invalid login handling implemented.
 
 Testing Results:
-- Valid login credentials successfully returned JWT token.
+- Valid login credentials successfully returned JWT token. 
 - Invalid login credentials correctly returned HTTP 401 Unauthorized.
 - Security controls prevented disclosure of user account existence.
 
 Pending Deliverables:
-
-* Login Endpoint
-* Protected Route Middleware
-* User Profile Endpoint
+None
 
 Estimated Completion:
 
-Approximately 80–85% of Sprint 1 deliverables have been completed successfully.
+Approximately 80–85 % of Sprint 1 deliverables have been completed successfully.
+
+### Issues Encountered
+
+1. JWT Payload Property Mismatch
+
+The JWT token was generated using the property:
+
+user: user._id
+
+while the authentication middleware expected:
+
+decoded.userId
+
+This caused authenticated requests to fail with a "User not found" response despite successful token verification.
+
+Resolution:
+The JWT payload was standardized to use:
+
+userId: user._id
+
+and a new token was generated for testing.
 
 ### Next Actions
+Sprint 1 Complete ✅
 
-* Create User schema
-* Implement authentication services
-* Create registration endpoint
-* Create login endpoint
-* Implement JWT middleware
-* Test authentication workflow

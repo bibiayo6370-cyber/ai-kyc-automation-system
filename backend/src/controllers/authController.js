@@ -48,3 +48,10 @@ export async function login(req, res) {
     });
   }
 }
+
+export async function profile(req, res) {
+  res.status(200).json({
+    success: true,
+    user: req.user
+  });
+}

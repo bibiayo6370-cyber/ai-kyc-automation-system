@@ -1,5 +1,7 @@
 import express, { json } from "express";
 import cors from "cors";
+
+import 'dotenv/config';
 import { APP_NAME } from "./config/constants.js";
 import authRoutes from "./routes/authRoutes.js";
 

@@ -21,10 +21,10 @@ app.use(json());
 
 app.use("/api/v1/auth", authRoutes);
 
-app.get("/health", (req, res) => {
+app.get("/", (req, res) => {
   res.status(200).json({
-    success: true,
-    status: "healthy"
+    "success": true,
+    "message": "AI-Driven KYC Automation System API Running"
   });
 });
 

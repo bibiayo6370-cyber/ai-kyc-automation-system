@@ -70,3 +70,26 @@ export async function createKYCApplication(
     throw error;
   }
 }
+
+export async function getMyKYCApplication(userId) {
+  if (!userId) {
+    throw createServiceError(
+      "Authenticated user is required",
+      401
+    );
+  }
+
+  const application =
+    await KYCApplication.findOne({
+      userId
+    });
+
+  if (!application) {
+    throw createServiceError(
+      "KYC application not found",
+      404
+    );
+  }
+
+  return application;
+}

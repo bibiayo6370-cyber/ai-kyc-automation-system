@@ -1,5 +1,6 @@
 import {
-  createKYCApplication
+  createKYCApplication,
+  getMyKYCApplication
 } from "../services/kycService.js";
 
 export async function createApplication(
@@ -51,6 +52,38 @@ export async function createApplication(
       message:
         statusCode === 500
           ? "Unable to submit KYC application"
+          : error.message
+    });
+  }
+}
+
+export async function getMyApplication(
+  req,
+  res
+) {
+  try {
+    const userId = req.user?._id;
+
+    const application =
+      await getMyKYCApplication(
+        userId
+      );
+
+    return res.status(200).json({
+      success: true,
+      message:
+        "KYC application retrieved successfully",
+      application
+    });
+  } catch (error) {
+    const statusCode =
+      error.statusCode ?? 500;
+
+    return res.status(statusCode).json({
+      success: false,
+      message:
+        statusCode === 500
+          ? "Unable to retrieve KYC application"
           : error.message
     });
   }

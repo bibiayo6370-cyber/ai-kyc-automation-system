@@ -39,6 +39,13 @@ export async function createApplication(
     const statusCode =
       error.statusCode ?? 500;
 
+    if (statusCode === 500) {
+      console.error(
+        "KYC application creation failed:",
+        error
+      );
+    }
+
     return res.status(statusCode).json({
       success: false,
       message:

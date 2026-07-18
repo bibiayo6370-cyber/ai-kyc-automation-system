@@ -7,7 +7,8 @@
   },
   "scripts": {
     "start": "node src/server.js",
-    "dev": "node --watch --env-file=.env src/server.js"
+    "dev": "node --watch --env-file=.env src/server.js",
+    "verify:ocr": "node scripts/verifyOcrDependencies.js"
   },
   "keywords": [
     "kyc",
@@ -26,6 +27,8 @@
     "cors": "^2.8.6",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
-    "mongoose": "^9.7.0"
+    "mongoose": "^9.7.0",
+    "multer": "^2.2.0",
+    "tesseract.js": "^7.0.0"
   }
 }

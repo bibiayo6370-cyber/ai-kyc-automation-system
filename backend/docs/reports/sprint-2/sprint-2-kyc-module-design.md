@@ -48,10 +48,10 @@ Each application record shall contain a reference to the user who created it thr
 
 ### Justification
 
-* Supports multi-user operation.
-* Aligns with the approved ERD.
-* Enables ownership validation.
-* Supports future administrative review workflows.
+- Supports multi-user operation.
+- Aligns with the approved ERD.
+- Enables ownership validation.
+- Supports future administrative review workflows.
 
 ### Status
 
@@ -91,9 +91,9 @@ Assigned automatically when a customer submits a KYC application.
 
 Meaning:
 
-* Application successfully submitted.
-* Awaiting administrative review.
-* No assessment has yet been performed.
+- Application successfully submitted.
+- Awaiting administrative review.
+- No assessment has yet been performed.
 
 #### Under Review
 
@@ -101,8 +101,8 @@ Assigned when an administrator begins reviewing the application.
 
 Meaning:
 
-* Application is actively being reviewed.
-* Verification and compliance checks are in progress.
+- Application is actively being reviewed.
+- Verification and compliance checks are in progress.
 
 #### Approved
 
@@ -110,8 +110,8 @@ Assigned after successful review.
 
 Meaning:
 
-* Customer onboarding requirements have been satisfied.
-* Application has been accepted.
+- Customer onboarding requirements have been satisfied.
+- Application has been accepted.
 
 #### Rejected
 
@@ -119,8 +119,8 @@ Assigned when review requirements are not met.
 
 Meaning:
 
-* Application failed review.
-* Customer onboarding cannot proceed.
+- Application failed review.
+- Customer onboarding cannot proceed.
 
 ### Status Transition Triggers
 
@@ -151,22 +151,22 @@ The following customer information shall be collected during application submiss
 
 ### Customer Fields
 
-* fullName
-* dateOfBirth
-* gender
-* nationality
-* residentialAddress
-* phoneNumber
-* occupation
+- fullName
+- dateOfBirth
+- gender
+- nationality
+- residentialAddress
+- phoneNumber
+- occupation
 
 ### Justification
 
 These fields provide sufficient information for:
 
-* Customer onboarding.
-* Identity verification.
-* Future OCR validation.
-* Future risk assessment.
+- Customer onboarding.
+- Identity verification.
+- Future OCR validation.
+- Future risk assessment.
 
 ### Status
 
@@ -192,10 +192,10 @@ If a customer already has an existing application, the system shall reject subse
 
 ### Justification
 
-* Simplifies MVP scope.
-* Matches typical onboarding processes.
-* Prevents duplicate records.
-* Simplifies future review workflows.
+- Simplifies MVP scope.
+- Matches typical onboarding processes.
+- Prevents duplicate records.
+- Simplifies future review workflows.
 
 ### Status
 
@@ -217,11 +217,11 @@ Once submitted, an application becomes read-only from the customer's perspective
 
 If a customer discovers an error after submission, such as:
 
-* Name spelling mistakes
-* Incorrect date of birth
-* Incorrect address
-* Incorrect phone number
-* Other data entry errors
+- Name spelling mistakes
+- Incorrect date of birth
+- Incorrect address
+- Incorrect phone number
+- Other data entry errors
 
 the customer will be instructed to contact a designated support email address to request a correction.
 
@@ -233,10 +233,10 @@ A future version of the system may support formal amendment requests and approva
 
 ### Justification
 
-* Reduces implementation complexity.
-* Preserves application integrity.
-* Aligns with common KYC operational practices.
-* Keeps MVP scope manageable.
+- Reduces implementation complexity.
+- Preserves application integrity.
+- Aligns with common KYC operational practices.
+- Keeps MVP scope manageable.
 
 ### Status
 
@@ -252,37 +252,37 @@ The KYC Application schema shall contain the following fields.
 
 ### Ownership Fields
 
-* userId
+- userId
 
 ### Customer Information Fields
 
-* fullName
-* dateOfBirth
-* gender
-* nationality
-* residentialAddress
-* phoneNumber
-* occupation
+- fullName
+- dateOfBirth
+- gender
+- nationality
+- residentialAddress
+- phoneNumber
+- occupation
 
 ### Workflow Fields
 
-* applicationStatus
-* reviewedBy
-* reviewDate
-* reviewComments
+- applicationStatus
+- reviewedBy
+- reviewDate
+- reviewComments
 
 ### System Fields
 
-* createdAt
-* updatedAt
+- createdAt
+- updatedAt
 
 ### Future Usage
 
 The following fields are included now to support future administrative review functionality:
 
-* reviewedBy
-* reviewDate
-* reviewComments
+- reviewedBy
+- reviewDate
+- reviewComments
 
 These fields will become active during Sprint 5.
 
@@ -366,11 +366,11 @@ MongoDB
 
 ### Benefits
 
-* Separation of concerns.
-* Reusability.
-* Maintainability.
-* Scalability.
-* Consistency with Chapter 3 design.
+- Separation of concerns.
+- Reusability.
+- Maintainability.
+- Scalability.
+- Consistency with Chapter 3 design.
 
 ### Status
 
@@ -476,20 +476,20 @@ github_commit_history_sprint2.png
 
 Sprint 2 shall be considered complete when:
 
-* KYC application schema is implemented.
-* Application submission endpoint is operational.
-* Application retrieval endpoint is operational.
-* Duplicate application validation is functioning.
-* JWT protection is enforced.
-* MongoDB persistence is verified.
-* Testing evidence has been captured.
-* Sprint report has been completed.
+- KYC application schema is implemented.
+- Application submission endpoint is operational.
+- Application retrieval endpoint is operational.
+- Duplicate application validation is functioning.
+- JWT protection is enforced.
+- MongoDB persistence is verified.
+- Testing evidence has been captured.
+- Sprint report has been completed.
 
 ---
 
 # Sprint 2 Design Review Outcome
 
-Status: Approved
+Status: Done
 
 Recommendation: Proceed to implementation.
 

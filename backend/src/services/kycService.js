@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import KYCApplication from "../models/KYCApplication.js";
 
 function createServiceError(message, statusCode) {
@@ -81,6 +82,44 @@ export async function getMyKYCApplication(userId) {
 
   const application =
     await KYCApplication.findOne({
+      userId
+    });
+
+  if (!application) {
+    throw createServiceError(
+      "KYC application not found",
+      404
+    );
+  }
+
+  return application;
+}
+
+export async function getKYCApplicationById(
+  applicationId,
+  userId
+) {
+  if (!userId) {
+    throw createServiceError(
+      "Authenticated user is required",
+      401
+    );
+  }
+
+  if (
+    !mongoose.isObjectIdOrHexString(
+      applicationId
+    )
+  ) {
+    throw createServiceError(
+      "Invalid KYC application ID",
+      400
+    );
+  }
+
+  const application =
+    await KYCApplication.findOne({
+      _id: applicationId,
       userId
     });
 

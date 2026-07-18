@@ -2,7 +2,8 @@ import { Router } from "express";
 
 import {
   createApplication,
-  getMyApplication
+  getMyApplication,
+  getApplicationById
 } from "../controllers/kycController.js";
 
 import {
@@ -22,6 +23,11 @@ router.post(
 router.get(
   "/",
   getMyApplication
+);
+
+router.get(
+  "/:id",
+  getApplicationById
 );
 
 export default router;

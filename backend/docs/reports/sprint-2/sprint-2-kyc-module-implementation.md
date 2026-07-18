@@ -8,7 +8,7 @@ Sprint 2 – KYC Application Management Module
 
 ### Sprint Duration
 
-[Insert actual Sprint 2 start date] – [Insert actual Sprint 2 completion date]
+July 16, 2026 – July 18,2026
 
 ### Sprint Status
 

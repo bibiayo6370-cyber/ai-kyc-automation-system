@@ -8,7 +8,8 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "node --watch --env-file=.env src/server.js",
-    "verify:ocr": "node scripts/verifyOcrDependencies.js"
+    "verify:ocr": "node scripts/verifyOcrDependencies.js",
+    "verify:gridfs": "node --env-file=.env scripts/verifyGridFsService.js"
   },
   "keywords": [
     "kyc",

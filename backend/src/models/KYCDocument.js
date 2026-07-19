@@ -1,17 +1,10 @@
 import mongoose from "mongoose";
 
-const DOCUMENT_TYPES = [
-  "national_id",
-  "passport",
-  "drivers_license",
-  "voters_card",
-  "utility_bill"
-];
-
-const MIME_TYPES = [
-  "image/jpeg",
-  "image/png"
-];
+import {
+  DOCUMENT_TYPES,
+  DOCUMENT_MIME_TYPES,
+  MAX_DOCUMENT_SIZE_BYTES
+} from "../config/documentConstants.js";
 
 const OCR_STATUSES = [
   "pending",
@@ -26,8 +19,6 @@ const VERIFICATION_STATUSES = [
   "needs_review",
   "failed"
 ];
-
-const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
 const kycDocumentSchema =
   new mongoose.Schema(
@@ -99,7 +90,7 @@ const kycDocumentSchema =
           "File MIME type is required"
         ],
         enum: {
-          values: MIME_TYPES,
+          values: DOCUMENT_MIME_TYPES,
           message:
             "{VALUE} is not a supported file type"
         },
@@ -117,7 +108,7 @@ const kycDocumentSchema =
           "Uploaded document cannot be empty"
         ],
         max: [
-          MAX_FILE_SIZE,
+          MAX_DOCUMENT_SIZE_BYTES,
           "Uploaded document cannot exceed 5 MB"
         ],
         immutable: true

@@ -9,7 +9,8 @@
     "start": "node src/server.js",
     "dev": "node --watch --env-file=.env src/server.js",
     "verify:ocr": "node scripts/verifyOcrDependencies.js",
-    "verify:gridfs": "node --env-file=.env scripts/verifyGridFsService.js"
+    "verify:gridfs": "node --env-file=.env scripts/verifyGridFsService.js",
+    "verify:ocr-service": "node scripts/verifyOcrService.js"
   },
   "keywords": [
     "kyc",

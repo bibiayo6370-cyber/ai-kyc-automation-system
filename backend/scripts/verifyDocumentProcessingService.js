@@ -143,9 +143,23 @@ try {
     "processed"
   );
 
+  /*  assert.equal(
+     document.verificationStatus,
+     "pending"
+   ); */
+
   assert.equal(
     document.verificationStatus,
-    "pending"
+    "matched"
+  );
+
+  assert.equal(
+    document.nameMatchScore,
+    100
+  );
+
+  console.log(
+    "OCR customer-name verification completed successfully"
   );
 
   assert.ok(

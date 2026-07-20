@@ -12,5 +12,6 @@ export const DOCUMENT_MIME_TYPES =
     "image/png"
   ]);
 
-export const MAX_DOCUMENT_SIZE_BYTES =
-  5 * 1024 * 1024;
+export const MAX_DOCUMENT_SIZE_BYTES = 5 * 1024 * 1024;
+
+export const NAME_MATCH_THRESHOLD_PERCENT = 75;

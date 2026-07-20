@@ -25,6 +25,10 @@ import {
   recognizeDocument
 } from "./ocrService.js";
 
+import {
+  verifyNameInOcrText
+} from "./nameVerificationService.js";
+
 const allowedDocumentTypes =
   new Set(DOCUMENT_TYPES);
 
@@ -314,6 +318,8 @@ async function recordOcrFailure(
 
   document.ocrConfidence = null;
 
+  document.nameMatchScore = null;
+
   document.processingError =
     normalizeProcessingError(error);
 
@@ -424,6 +430,12 @@ export async function processKYCDocument({
     );
   }
 
+  const nameVerification =
+    verifyNameInOcrText(
+      application.fullName,
+      ocrResult.extractedText
+    );
+
   document.extractedText =
     ocrResult.extractedText || null;
 
@@ -432,6 +444,14 @@ export async function processKYCDocument({
 
   document.ocrStatus =
     "processed";
+
+  document.verificationStatus =
+    nameVerification
+      .verificationStatus;
+
+  document.nameMatchScore =
+    nameVerification
+      .nameMatchScore;
 
   document.processingError =
     null;

@@ -11,7 +11,8 @@
     "verify:ocr": "node scripts/verifyOcrDependencies.js",
     "verify:gridfs": "node --env-file=.env scripts/verifyGridFsService.js",
     "verify:ocr-service": "node scripts/verifyOcrService.js",
-    "verify:document-processing": "node --env-file=.env scripts/verifyDocumentProcessingService.js"
+    "verify:document-processing": "node --env-file=.env scripts/verifyDocumentProcessingService.js",
+    "verify:name-matching": "node scripts/verifyNameVerificationService.js"
   },
   "keywords": [
     "kyc",

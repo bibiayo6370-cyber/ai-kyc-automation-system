@@ -210,7 +210,7 @@ async function deleteStoredFileQuietly(
   }
 }
 
-async function getOwnedPendingApplication(
+async function getOwnedApplication(
   applicationId,
   userId
 ) {
@@ -238,6 +238,19 @@ async function getOwnedPendingApplication(
       404
     );
   }
+
+  return application;
+}
+
+async function getOwnedPendingApplication(
+  applicationId,
+  userId
+) {
+  const application =
+    await getOwnedApplication(
+      applicationId,
+      userId
+    );
 
   if (
     application.applicationStatus !==
@@ -457,6 +470,74 @@ export async function processKYCDocument({
     null;
 
   await document.save();
+
+  return document;
+}
+
+export async function getKYCDocuments(
+  applicationId,
+  userId
+) {
+  if (!userId) {
+    throw createServiceError(
+      "Authenticated user is required",
+      401
+    );
+  }
+
+  const application =
+    await getOwnedApplication(
+      applicationId,
+      userId
+    );
+
+  return KYCDocument.find({
+    applicationId:
+      application._id,
+    userId
+  }).sort({
+    createdAt: -1
+  });
+}
+
+export async function getKYCDocumentById({
+  applicationId,
+  documentId,
+  userId
+}) {
+  if (!userId) {
+    throw createServiceError(
+      "Authenticated user is required",
+      401
+    );
+  }
+
+  const application =
+    await getOwnedApplication(
+      applicationId,
+      userId
+    );
+
+  const documentObjectId =
+    toObjectId(
+      documentId,
+      "KYC document ID"
+    );
+
+  const document =
+    await KYCDocument.findOne({
+      _id: documentObjectId,
+      applicationId:
+        application._id,
+      userId
+    });
+
+  if (!document) {
+    throw createServiceError(
+      "KYC document not found",
+      404
+    );
+  }
 
   return document;
 }

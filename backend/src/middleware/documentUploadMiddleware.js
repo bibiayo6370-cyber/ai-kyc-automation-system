@@ -33,8 +33,6 @@ const documentUpload = multer({
   limits: {
     fileSize: MAX_DOCUMENT_SIZE_BYTES,
     files: 1,
-    fields: 1,
-    parts: 2
   },
 
   fileFilter(req, file, callback) {
@@ -193,6 +191,35 @@ export function validateDocumentUpload(
       success: false,
       message:
         "A JPEG or PNG document is required"
+    });
+  }
+
+  const bodyFieldNames =
+    Object.keys(req.body ?? {});
+
+  const unexpectedFields =
+    bodyFieldNames.filter(
+      (fieldName) =>
+        fieldName !== "documentType"
+    );
+
+  if (unexpectedFields.length > 0) {
+    return res.status(400).json({
+      success: false,
+      message:
+        "Only the documentType form field is allowed"
+    });
+  }
+
+  if (
+    Array.isArray(
+      req.body?.documentType
+    )
+  ) {
+    return res.status(400).json({
+      success: false,
+      message:
+        "Document type must be provided only once"
     });
   }
 

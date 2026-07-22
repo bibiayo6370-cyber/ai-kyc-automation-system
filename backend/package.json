@@ -12,7 +12,8 @@
     "verify:gridfs": "node --env-file=.env scripts/verifyGridFsService.js",
     "verify:ocr-service": "node scripts/verifyOcrService.js",
     "verify:document-processing": "node --env-file=.env scripts/verifyDocumentProcessingService.js",
-    "verify:name-matching": "node scripts/verifyNameVerificationService.js"
+    "verify:name-matching": "node scripts/verifyNameVerificationService.js",
+    "verify:image-validation": "node scripts/verifyImageValidationService.js"
   },
   "keywords": [
     "kyc",
@@ -33,6 +34,7 @@
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.7.0",
     "multer": "^2.2.0",
+    "sharp": "^0.35.3",
     "tesseract.js": "^7.0.0"
   }
 }

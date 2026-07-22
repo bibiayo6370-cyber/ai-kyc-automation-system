@@ -15,3 +15,5 @@ export const DOCUMENT_MIME_TYPES =
 export const MAX_DOCUMENT_SIZE_BYTES = 5 * 1024 * 1024;
 
 export const NAME_MATCH_THRESHOLD_PERCENT = 75;
+
+export const MAX_DOCUMENT_PIXELS = 25_000_000;

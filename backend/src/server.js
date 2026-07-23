@@ -5,6 +5,9 @@ import cors from "cors";
 import { APP_NAME } from "./config/constants.js";
 import authRoutes from "./routes/authRoutes.js";
 import kycRoutes from "./routes/kycRoutes.js";
+import {
+  recoverInterruptedOcrProcessing
+} from "./services/ocrRecoveryService.js";
 
 import connectDB from "./config/database.js";
 
@@ -16,6 +19,27 @@ if (!process.env.JWT_SECRET) {
 const app = express();
 
 await connectDB();
+
+const recoveryCutoff =
+  new Date();
+
+const recoveryResult =
+  await recoverInterruptedOcrProcessing({
+    interruptedBefore:
+      recoveryCutoff
+  });
+
+if (
+  recoveryResult.modifiedCount > 0
+) {
+  console.warn(
+    `${recoveryResult.modifiedCount} interrupted OCR document(s) marked as failed`
+  );
+} else {
+  console.log(
+    "No interrupted OCR processing records found"
+  );
+}
 
 app.use(cors());
 app.use(json());

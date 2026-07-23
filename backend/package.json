@@ -7,7 +7,14 @@
   },
   "scripts": {
     "start": "node src/server.js",
-    "dev": "node --watch --env-file=.env src/server.js"
+    "dev": "node --watch --env-file=.env src/server.js",
+    "verify:ocr": "node scripts/verifyOcrDependencies.js",
+    "verify:gridfs": "node --env-file=.env scripts/verifyGridFsService.js",
+    "verify:ocr-service": "node scripts/verifyOcrService.js",
+    "verify:document-processing": "node --env-file=.env scripts/verifyDocumentProcessingService.js",
+    "verify:name-matching": "node scripts/verifyNameVerificationService.js",
+    "verify:image-validation": "node scripts/verifyImageValidationService.js",
+    "verify:ocr-recovery": "node --env-file=.env scripts/verifyOcrRecoveryService.js"
   },
   "keywords": [
     "kyc",
@@ -26,6 +33,9 @@
     "cors": "^2.8.6",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
-    "mongoose": "^9.7.0"
+    "mongoose": "^9.7.0",
+    "multer": "^2.2.0",
+    "sharp": "^0.35.3",
+    "tesseract.js": "^7.0.0"
   }
 }

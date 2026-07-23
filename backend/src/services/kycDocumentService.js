@@ -29,6 +29,10 @@ import {
   verifyNameInOcrText
 } from "./nameVerificationService.js";
 
+import {
+  validateDecodableImage
+} from "./imageValidationService.js";
+
 const allowedDocumentTypes =
   new Set(DOCUMENT_TYPES);
 
@@ -388,6 +392,11 @@ export async function processKYCDocument({
       409
     );
   }
+
+  await validateDecodableImage(
+    validatedFile.buffer,
+    validatedFile.mimeType
+  );
 
   const fileHash =
     generateFileHash(

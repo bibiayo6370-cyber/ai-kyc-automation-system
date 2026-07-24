@@ -16,7 +16,8 @@
     "verify:image-validation": "node scripts/verifyImageValidationService.js",
     "verify:ocr-recovery": "node --env-file=.env scripts/verifyOcrRecoveryService.js",
     "verify:risk-constants": "node scripts/verifyRiskConstants.js",
-    "verify:risk-schema": "node scripts/verifyRiskAssessmentSchema.js"
+    "verify:risk-schema": "node scripts/verifyRiskAssessmentSchema.js",
+    "verify:watchlist": "node scripts/verifyWatchlistService.js"
   },
   "keywords": [
     "kyc",

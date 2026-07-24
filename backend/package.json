@@ -14,7 +14,8 @@
     "verify:document-processing": "node --env-file=.env scripts/verifyDocumentProcessingService.js",
     "verify:name-matching": "node scripts/verifyNameVerificationService.js",
     "verify:image-validation": "node scripts/verifyImageValidationService.js",
-    "verify:ocr-recovery": "node --env-file=.env scripts/verifyOcrRecoveryService.js"
+    "verify:ocr-recovery": "node --env-file=.env scripts/verifyOcrRecoveryService.js",
+    "verify:risk-constants": "node scripts/verifyRiskConstants.js"
   },
   "keywords": [
     "kyc",

@@ -18,7 +18,8 @@
     "verify:risk-constants": "node scripts/verifyRiskConstants.js",
     "verify:risk-schema": "node scripts/verifyRiskAssessmentSchema.js",
     "verify:watchlist": "node scripts/verifyWatchlistService.js",
-    "verify:risk-scoring": "node scripts/verifyRiskScoringService.js"
+    "verify:risk-scoring": "node scripts/verifyRiskScoringService.js",
+    "verify:risk-assessment": "node --env-file=.env scripts/verifyRiskAssessmentService.js"
   },
   "keywords": [
     "kyc",

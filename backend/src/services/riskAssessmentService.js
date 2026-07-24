@@ -491,3 +491,42 @@ export async function assessApplicationRisk({
     inputSnapshot
   });
 }
+
+export async function getApplicationRiskAssessment({
+  applicationId,
+  userId
+}) {
+  validateObjectId(
+    applicationId,
+    "application ID"
+  );
+
+  validateObjectId(
+    userId,
+    "user ID"
+  );
+
+  const application =
+    await findOwnedApplication({
+      applicationId,
+      userId
+    });
+
+  const assessment =
+    await RiskAssessment.findOne({
+      applicationId:
+        application._id,
+
+      userId:
+        application.userId
+    });
+
+  if (!assessment) {
+    throw createServiceError(
+      "KYC risk assessment not found",
+      404
+    );
+  }
+
+  return assessment;
+}

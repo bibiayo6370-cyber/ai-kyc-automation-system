@@ -1,13 +1,3 @@
-Create:
-
-```text
-docs/reports/sprint-3/sprint-3-document-upload-ocr-integration.md
-```
-
-Paste the following report into the file.
-
----
-
 # Sprint 3 – Secure Document Upload and OCR Integration
 
 ## 1. Sprint Information

@@ -33,6 +33,11 @@ import {
   validateDecodableImage
 } from "./imageValidationService.js";
 
+import {
+  assessApplicationRisk,
+  recordRiskAssessmentFailure
+} from "./riskAssessmentService.js";
+
 const allowedDocumentTypes =
   new Set(DOCUMENT_TYPES);
 
@@ -353,6 +358,44 @@ async function recordOcrFailure(
   return document;
 }
 
+async function runAutomaticRiskAssessment({
+  applicationId,
+  userId,
+  documentId
+}) {
+  try {
+    return await assessApplicationRisk({
+      applicationId,
+      userId
+    });
+  } catch (assessmentError) {
+    /*
+     * The document and its final OCR status have
+     * already been saved. A risk-assessment
+     * failure must not undo the document upload.
+     */
+    try {
+      return await recordRiskAssessmentFailure({
+        applicationId,
+        userId,
+        documentId,
+        error:
+          assessmentError
+      });
+    } catch (
+    failurePersistenceError
+    ) {
+      console.error(
+        "Automatic risk assessment failed and its failure state could not be recorded:",
+        failurePersistenceError
+      );
+
+      return null;
+    }
+  }
+}
+
+
 export async function processKYCDocument({
   applicationId,
   userId,
@@ -446,10 +489,30 @@ export async function processKYCDocument({
         validatedFile.buffer
       );
   } catch (error) {
-    return recordOcrFailure(
-      document,
-      error
-    );
+    const failedDocument =
+      await recordOcrFailure(
+        document,
+        error
+      );
+
+    const riskAssessment =
+      await runAutomaticRiskAssessment({
+        applicationId:
+          application._id,
+
+        userId:
+          application.userId,
+
+        documentId:
+          failedDocument._id
+      });
+
+    return {
+      document:
+        failedDocument,
+
+      riskAssessment
+    };
   }
 
   const nameVerification =
@@ -459,7 +522,8 @@ export async function processKYCDocument({
     );
 
   document.extractedText =
-    ocrResult.extractedText || null;
+    ocrResult.extractedText ||
+    null;
 
   document.ocrConfidence =
     ocrResult.ocrConfidence;
@@ -478,9 +542,27 @@ export async function processKYCDocument({
   document.processingError =
     null;
 
-  await document.save();
+  const savedDocument =
+    await document.save();
 
-  return document;
+  const riskAssessment =
+    await runAutomaticRiskAssessment({
+      applicationId:
+        application._id,
+
+      userId:
+        application.userId,
+
+      documentId:
+        savedDocument._id
+    });
+
+  return {
+    document:
+      savedDocument,
+
+    riskAssessment
+  };
 }
 
 export async function getKYCDocuments(

@@ -23,10 +23,20 @@ import {
 } from
   "../middleware/documentUploadMiddleware.js";
 
+import {
+  getRiskAssessment
+} from
+  "../controllers/riskAssessmentController.js";
+
 const router = Router();
 
 // All KYC application routes require authentication.
 router.use(authenticate);
+
+router.get(
+  "/:applicationId/risk-assessment",
+  getRiskAssessment
+);
 
 router.post(
   "/",
@@ -59,5 +69,6 @@ router.get(
   "/:id",
   getApplicationById
 );
+
 
 export default router;

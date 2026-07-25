@@ -94,7 +94,10 @@ try {
       imageBuffer.length
   };
 
-  const document =
+  const {
+    document,
+    riskAssessment
+  } =
     await processKYCDocument({
       applicationId:
         application._id,
@@ -247,6 +250,32 @@ try {
 
   console.log(
     "One-document-per-application restriction verified"
+  );
+
+  assert.ok(
+    riskAssessment
+  );
+
+  assert.equal(
+    String(
+      riskAssessment.applicationId
+    ),
+    String(
+      document.applicationId
+    )
+  );
+
+  assert.equal(
+    String(
+      riskAssessment.documentId
+    ),
+    String(
+      document._id
+    )
+  );
+
+  console.log(
+    "Automatic risk assessment after document processing verified"
   );
 
   console.log(

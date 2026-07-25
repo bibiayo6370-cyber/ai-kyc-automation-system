@@ -51,7 +51,10 @@ export async function createDocument(
   res
 ) {
   try {
-    const document =
+    const {
+      document,
+      riskAssessment
+    } =
       await processKYCDocument({
         applicationId:
           req.params.applicationId,
@@ -66,19 +69,41 @@ export async function createDocument(
           req.body?.documentType
       });
 
-    const processingSuccessful =
+    const assessmentCompleted =
+      riskAssessment
+        ?.assessmentStatus ===
+      "completed";
+
+    let message;
+
+    if (
       document.ocrStatus ===
-      "processed";
+      "failed"
+    ) {
+      message =
+        assessmentCompleted
+          ? "KYC document uploaded, but OCR processing failed and a high-risk assessment was recorded"
+          : "KYC document uploaded, but OCR processing and automatic risk assessment could not be completed";
+    } else if (
+      assessmentCompleted
+    ) {
+      message =
+        "KYC document uploaded, processed and assessed successfully";
+    } else {
+      message =
+        "KYC document uploaded and processed, but automatic risk assessment is unavailable";
+    }
 
     return res.status(201).json({
       success: true,
+      message,
 
-      message:
-        processingSuccessful
-          ? "KYC document uploaded and processed successfully"
-          : "KYC document uploaded, but OCR processing failed",
+      document,
 
-      document
+      riskAssessment:
+        createRiskAssessmentSummary(
+          riskAssessment
+        )
     });
   } catch (error) {
     return sendDocumentError(
@@ -146,4 +171,51 @@ export async function getDocumentById(
       "retrieve KYC document details"
     );
   }
+}
+
+function createRiskAssessmentSummary(
+  assessment
+) {
+  if (!assessment) {
+    return {
+      assessmentStatus:
+        "unavailable",
+
+      riskScore: null,
+      riskLevel: null,
+      recommendation: null,
+      reviewRequired: null,
+      assessmentReasons: [],
+      assessedAt: null
+    };
+  }
+
+  return {
+    assessmentStatus:
+      assessment.assessmentStatus,
+
+    riskScore:
+      assessment.riskScore ??
+      null,
+
+    riskLevel:
+      assessment.riskLevel ??
+      null,
+
+    recommendation:
+      assessment.recommendation ??
+      null,
+
+    reviewRequired:
+      assessment.reviewRequired ??
+      null,
+
+    assessmentReasons:
+      assessment.assessmentReasons ??
+      [],
+
+    assessedAt:
+      assessment.assessedAt ??
+      null
+  };
 }

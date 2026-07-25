@@ -14,7 +14,20 @@
     "verify:document-processing": "node --env-file=.env scripts/verifyDocumentProcessingService.js",
     "verify:name-matching": "node scripts/verifyNameVerificationService.js",
     "verify:image-validation": "node scripts/verifyImageValidationService.js",
-    "verify:ocr-recovery": "node --env-file=.env scripts/verifyOcrRecoveryService.js"
+    "verify:ocr-recovery": "node --env-file=.env scripts/verifyOcrRecoveryService.js",
+    "verify:risk-constants": "node scripts/verifyRiskConstants.js",
+    "verify:risk-schema": "node scripts/verifyRiskAssessmentSchema.js",
+    "verify:watchlist": "node scripts/verifyWatchlistService.js",
+    "verify:risk-scoring": "node scripts/verifyRiskScoringService.js",
+    "verify:risk-assessment": "node --env-file=.env scripts/verifyRiskAssessmentService.js",
+    "verify:automatic-risk": "node --env-file=.env scripts/verifyAutomaticRiskAssessment.js",
+    "verify:risk-retrieval": "node --env-file=.env scripts/verifyRiskAssessmentRetrieval.js",
+    "verify:risk-low": "node --env-file=.env scripts/verifyLowRiskScenario.js",
+    "verify:risk-medium": "node --env-file=.env scripts/verifyMediumRiskScenario.js",
+    "verify:risk-high": "node --env-file=.env scripts/verifyHighRiskScenarios.js",
+    "verify:risk-security": "node --env-file=.env scripts/verifyRiskSecurity.js",
+    "verify:sprint4-regression": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File tests/regression_tests.ps1",
+    "verify:sprint4-evidence": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File tests/sprint4_evidence_audit.ps1 -ExpectedCount 27"
   },
   "keywords": [
     "kyc",

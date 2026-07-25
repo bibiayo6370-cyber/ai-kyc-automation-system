@@ -22,7 +22,8 @@
     "verify:risk-assessment": "node --env-file=.env scripts/verifyRiskAssessmentService.js",
     "verify:automatic-risk": "node --env-file=.env scripts/verifyAutomaticRiskAssessment.js",
     "verify:risk-retrieval": "node --env-file=.env scripts/verifyRiskAssessmentRetrieval.js",
-    "verify:risk-low": "node --env-file=.env scripts/verifyLowRiskScenario.js"
+    "verify:risk-low": "node --env-file=.env scripts/verifyLowRiskScenario.js",
+    "verify:risk-medium": "node --env-file=.env scripts/verifyMediumRiskScenario.js"
   },
   "keywords": [
     "kyc",

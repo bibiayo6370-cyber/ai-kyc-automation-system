@@ -1,17 +1,11 @@
-import {
-  ASSESSMENT_STATUSES,
-  RISK_LEVELS
-} from "../config/riskConstants.js";
+import mongoose from "mongoose";
 
-import {
-  APPLICATION_STATUSES
-} from "../config/kycReviewConstants.js";
-
-import KYCApplication from
-  "../models/KYCApplication.js";
-
-import RiskAssessment from
-  "../models/RiskAssessment.js";
+import { ASSESSMENT_STATUSES, RISK_LEVELS } from "../config/riskConstants.js";
+import KYCDocument from "../models/KYCDocument.js";
+import AuditLog from "../models/AuditLog.js";
+import { APPLICATION_STATUSES } from "../config/kycReviewConstants.js";
+import KYCApplication from "../models/KYCApplication.js";
+import RiskAssessment from "../models/RiskAssessment.js";
 
 const DEFAULT_PAGE = 1;
 const DEFAULT_LIMIT = 20;
@@ -47,6 +41,23 @@ function createServiceError(
     statusCode;
 
   return error;
+}
+
+function validateObjectId(
+  value,
+  fieldName
+) {
+  if (
+    !value ||
+    !mongoose.isObjectIdOrHexString(
+      value
+    )
+  ) {
+    throw createServiceError(
+      `A valid ${fieldName} is required`,
+      400
+    );
+  }
 }
 
 function parsePositiveInteger(
@@ -200,6 +211,66 @@ function compareQueueItems(
         .assessedAt
     )
   );
+}
+
+function createAdministratorSummary(
+  administrator
+) {
+  if (!administrator) {
+    return null;
+  }
+
+  return {
+    id:
+      administrator._id,
+
+    fullName:
+      administrator.fullName,
+
+    email:
+      administrator.email,
+
+    role:
+      administrator.role,
+
+    accountStatus:
+      administrator.status
+  };
+}
+
+function createAuditTrailItem(
+  auditLog
+) {
+  return {
+    id:
+      auditLog._id,
+
+    action:
+      auditLog.action,
+
+    actorRole:
+      auditLog.actorRole,
+
+    actor:
+      createAdministratorSummary(
+        auditLog.actorId
+      ),
+
+    previousStatus:
+      auditLog.previousStatus,
+
+    newStatus:
+      auditLog.newStatus,
+
+    reviewComments:
+      auditLog.reviewComments,
+
+    riskAssessmentId:
+      auditLog.riskAssessmentId,
+
+    createdAt:
+      auditLog.createdAt
+  };
 }
 
 export async function getAdministratorReviewQueue({
@@ -356,5 +427,117 @@ export async function getAdministratorReviewQueue({
 
       totalPages
     }
+  };
+}
+
+export async function getAdministratorApplicationDetail({
+  applicationId
+}) {
+  validateObjectId(applicationId, "application ID");
+
+  const application =
+    await KYCApplication.findById(applicationId)
+      .populate({
+        path: "userId", select: "fullName email phoneNumber role status createdAt"
+      })
+      .populate({
+        path: "reviewedBy", select: "fullName email role status"
+      })
+      .lean();
+
+  if (!application) {
+    throw createServiceError("KYC application not found",
+      404
+    );
+  }
+
+  const [document, assessment, auditLogs] =
+    await Promise.all([
+      KYCDocument.findOne({ applicationId: application._id })
+        .select(
+          "documentType originalName mimeType fileSize ocrStatus extractedText ocrConfidence verificationStatus nameMatchScore processingError createdAt updatedAt"
+        )
+        .lean(),
+
+      RiskAssessment.findOne({
+        applicationId: application._id
+      })
+        .select(
+          "assessmentStatus riskScore riskLevel recommendation reviewRequired riskFactors assessmentReasons watchlistScreening inputSnapshot rulesVersion assessmentError assessedAt createdAt updatedAt"
+        )
+        .lean(),
+
+      AuditLog.find({ applicationId: application._id })
+        .populate({
+          path: "actorId", select: "fullName email role status"
+        })
+        .sort({ createdAt: 1, _id: 1 }).lean()
+    ]);
+
+  const customer = application.userId;
+
+  return {
+    application: {
+      id: application._id,
+      fullName: application.fullName,
+      dateOfBirth: application.dateOfBirth,
+      gender: application.gender,
+      nationality: application.nationality,
+      residentialAddress: application.residentialAddress,
+      phoneNumber: application.phoneNumber,
+      occupation: application.occupation,
+      applicationStatus: application.applicationStatus,
+      submittedAt: application.createdAt,
+      updatedAt: application.updatedAt,
+      review: {
+        reviewedBy: createAdministratorSummary(application.reviewedBy), reviewDate: application.reviewDate, reviewComments: application.reviewComments
+      }
+    },
+
+    customer: {
+      id: customer?._id ?? null,
+      fullName: customer?.fullName ?? null,
+      email: customer?.email ?? null,
+      phoneNumber: customer?.phoneNumber ?? null,
+      role: customer?.role ?? null,
+      accountStatus: customer?.status ?? null,
+      accountCreatedAt: customer?.createdAt ?? null
+    },
+
+    document: document ? {
+      id: document._id,
+      documentType: document.documentType,
+      originalName: document.originalName,
+      mimeType: document.mimeType,
+      fileSize: document.fileSize,
+      ocrStatus: document.ocrStatus,
+      extractedText: document.extractedText,
+      ocrConfidence: document.ocrConfidence,
+      verificationStatus: document.verificationStatus,
+      nameMatchScore: document.nameMatchScore,
+      processingError: document.processingError,
+      createdAt: document.createdAt,
+      updatedAt: document.updatedAt
+    } : null,
+
+    riskAssessment: assessment ? {
+      id: assessment._id,
+      assessmentStatus: assessment.assessmentStatus,
+      riskScore: assessment.riskScore,
+      riskLevel: assessment.riskLevel,
+      recommendation: assessment.recommendation,
+      reviewRequired: assessment.reviewRequired,
+      riskFactors: assessment.riskFactors,
+      assessmentReasons: assessment.assessmentReasons,
+      watchlistScreening: assessment.watchlistScreening,
+      inputSnapshot: assessment.inputSnapshot,
+      rulesVersion: assessment.rulesVersion,
+      assessmentError: assessment.assessmentError,
+      assessedAt: assessment.assessedAt,
+      createdAt: assessment.createdAt,
+      updatedAt: assessment.updatedAt
+    } : null,
+
+    auditTrail: auditLogs.map(createAuditTrailItem)
   };
 }

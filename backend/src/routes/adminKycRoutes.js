@@ -1,27 +1,15 @@
-import {
-  Router
-} from "express";
+import { Router } from "express";
 
-import {
-  getReviewQueue
-} from "../controllers/adminKycController.js";
+import { getApplicationDetail, getReviewQueue } from "../controllers/adminKycController.js";
 
-import {
-  authenticate,
-  authorizeRoles
-} from "../middleware/authMiddleware.js";
+import { authenticate, authorizeRoles } from "../middleware/authMiddleware.js";
 
-const router =
-  Router();
+const router = Router();
 
-router.use(
-  authenticate,
-  authorizeRoles("admin")
-);
+router.use(authenticate, authorizeRoles("admin"));
 
-router.get(
-  "/review-queue",
-  getReviewQueue
-);
+router.get("/review-queue", getReviewQueue);
+
+router.get("/applications/:applicationId", getApplicationDetail);
 
 export default router;

@@ -32,7 +32,8 @@
     "verify:kyc-review-model": "node scripts/verifyKycApplicationReviewValidation.js",
     "verify:audit-log": "node --env-file=.env scripts/verifyAuditLogService.js",
     "verify:admin-authorization": "node --env-file=.env scripts/verifyAdminAuthorization.js",
-    "verify:admin-review-queue": "node --env-file=.env scripts/verifyAdminReviewQueue.js"
+    "verify:admin-review-queue": "node --env-file=.env scripts/verifyAdminReviewQueue.js",
+    "verify:admin-application-detail": "node --env-file=.env scripts/verifyAdminApplicationDetail.js"
   },
   "keywords": [
     "kyc",

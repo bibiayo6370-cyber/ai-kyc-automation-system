@@ -228,8 +228,23 @@ const reviewCommentsPath =
   );
 
 assert.equal(
-  reviewCommentsPath.options.maxlength,
+  reviewCommentsPath.options.minlength[0],
+  REVIEW_COMMENT_RULES.MIN_REQUIRED_LENGTH
+);
+
+assert.equal(
+  reviewCommentsPath.options.maxlength[0],
   REVIEW_COMMENT_RULES.MAX_LENGTH
+);
+
+assert.equal(
+  reviewCommentsPath.options.minlength[1],
+  `Review comments must contain at least ${REVIEW_COMMENT_RULES.MIN_REQUIRED_LENGTH} characters`
+);
+
+assert.equal(
+  reviewCommentsPath.options.maxlength[1],
+  `Review comments cannot exceed ${REVIEW_COMMENT_RULES.MAX_LENGTH} characters`
 );
 
 console.log(

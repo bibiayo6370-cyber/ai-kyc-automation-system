@@ -1,14 +1,11 @@
 import express, { json } from "express";
 import cors from "cors";
 
-//import 'dotenv/config';
 import { APP_NAME } from "./config/constants.js";
 import authRoutes from "./routes/authRoutes.js";
 import kycRoutes from "./routes/kycRoutes.js";
-import {
-  recoverInterruptedOcrProcessing
-} from "./services/ocrRecoveryService.js";
-
+import { recoverInterruptedOcrProcessing } from "./services/ocrRecoveryService.js";
+import adminKycRoutes from "./routes/adminKycRoutes.js";
 import connectDB from "./config/database.js";
 
 if (!process.env.JWT_SECRET) {
@@ -17,16 +14,12 @@ if (!process.env.JWT_SECRET) {
 }
 
 const app = express();
-
 await connectDB();
 
-const recoveryCutoff =
-  new Date();
-
+const recoveryCutoff = new Date();
 const recoveryResult =
   await recoverInterruptedOcrProcessing({
-    interruptedBefore:
-      recoveryCutoff
+    interruptedBefore: recoveryCutoff
   });
 
 if (
@@ -36,8 +29,7 @@ if (
     `${recoveryResult.modifiedCount} interrupted OCR document(s) marked as failed`
   );
 } else {
-  console.log(
-    "No interrupted OCR processing records found"
+  console.log("No interrupted OCR processing records found"
   );
 }
 
@@ -46,6 +38,7 @@ app.use(json());
 
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/applications", kycRoutes);
+app.use("/api/v1/admin/kyc", adminKycRoutes);
 
 app.get("/", (req, res) => {
   res.status(200).json({

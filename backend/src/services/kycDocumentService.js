@@ -5,6 +5,10 @@ import {
 import mongoose from "mongoose";
 
 import {
+  moveApplicationToReviewAfterAssessment
+} from "./applicationReviewTransitionService.js";
+
+import {
   APPLICATION_STATUSES
 } from "../config/kycReviewConstants.js";
 
@@ -366,17 +370,15 @@ async function runAutomaticRiskAssessment({
   userId,
   documentId
 }) {
+  let assessment;
+
   try {
-    return await assessApplicationRisk({
-      applicationId,
-      userId
-    });
+    assessment =
+      await assessApplicationRisk({
+        applicationId,
+        userId
+      });
   } catch (assessmentError) {
-    /*
-     * The document and its final OCR status have
-     * already been saved. A risk-assessment
-     * failure must not undo the document upload.
-     */
     try {
       return await recordRiskAssessmentFailure({
         applicationId,
@@ -385,9 +387,7 @@ async function runAutomaticRiskAssessment({
         error:
           assessmentError
       });
-    } catch (
-    failurePersistenceError
-    ) {
+    } catch (failurePersistenceError) {
       console.error(
         "Automatic risk assessment failed and its failure state could not be recorded:",
         failurePersistenceError
@@ -396,6 +396,23 @@ async function runAutomaticRiskAssessment({
       return null;
     }
   }
+
+  try {
+    await moveApplicationToReviewAfterAssessment({
+      applicationId,
+      customerId:
+        userId,
+      riskAssessmentId:
+        assessment._id
+    });
+  } catch (transitionError) {
+    console.error(
+      "Automatic application review transition failed:",
+      transitionError
+    );
+  }
+
+  return assessment;
 }
 
 

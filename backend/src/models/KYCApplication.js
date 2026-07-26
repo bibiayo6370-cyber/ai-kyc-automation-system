@@ -1,5 +1,10 @@
 import mongoose from "mongoose";
 
+import {
+  APPLICATION_STATUSES,
+  APPLICATION_STATUS_VALUES
+} from "../config/kycReviewConstants.js";
+
 const kycApplicationSchema = new mongoose.Schema(
   {
     userId: {
@@ -64,13 +69,10 @@ const kycApplicationSchema = new mongoose.Schema(
 
     applicationStatus: {
       type: String,
-      enum: [
-        "pending",
-        "under_review",
-        "approved",
-        "rejected"
-      ],
-      default: "pending",
+      enum:
+        APPLICATION_STATUS_VALUES,
+      default:
+        APPLICATION_STATUSES.PENDING,
       index: true
     },
 

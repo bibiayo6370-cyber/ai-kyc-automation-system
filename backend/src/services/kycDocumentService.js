@@ -5,6 +5,10 @@ import {
 import mongoose from "mongoose";
 
 import {
+  APPLICATION_STATUSES
+} from "../config/kycReviewConstants.js";
+
+import {
   DOCUMENT_TYPES,
   DOCUMENT_MIME_TYPES,
   MAX_DOCUMENT_SIZE_BYTES
@@ -262,8 +266,7 @@ async function getOwnedPendingApplication(
     );
 
   if (
-    application.applicationStatus !==
-    "pending"
+    application.applicationStatus !== APPLICATION_STATUSES.PENDING
   ) {
     throw createServiceError(
       "Documents can only be uploaded while the KYC application is pending",

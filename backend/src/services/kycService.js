@@ -1,5 +1,8 @@
 import mongoose from "mongoose";
 import KYCApplication from "../models/KYCApplication.js";
+import {
+  APPLICATION_STATUSES
+} from "../config/kycReviewConstants.js";
 
 function createServiceError(message, statusCode) {
   const error = new Error(message);
@@ -52,7 +55,7 @@ export async function createKYCApplication(
         residentialAddress,
         phoneNumber,
         occupation,
-        applicationStatus: "pending"
+        applicationStatus: APPLICATION_STATUSES.PENDING
       });
 
     return application;

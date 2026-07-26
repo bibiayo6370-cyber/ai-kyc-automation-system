@@ -29,7 +29,8 @@
     "verify:sprint4-regression": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File tests/regression_tests.ps1",
     "verify:sprint4-evidence": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File tests/sprint4_evidence_audit.ps1 -ExpectedCount 27",
     "verify:kyc-review-constants": "node scripts/verifyKycReviewConstants.js",
-    "verify:kyc-review-model": "node scripts/verifyKycApplicationReviewValidation.js"
+    "verify:kyc-review-model": "node scripts/verifyKycApplicationReviewValidation.js",
+    "verify:audit-log": "node --env-file=.env scripts/verifyAuditLogService.js"
   },
   "keywords": [
     "kyc",

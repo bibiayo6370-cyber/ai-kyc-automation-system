@@ -38,7 +38,8 @@
     "verify:admin-decision-endpoint": "node --env-file=.env scripts/verifyAdminDecisionEndpoint.js",
     "verify:customer-status": "node --env-file=.env scripts/verifyCustomerApplicationStatus.js",
     "promote:admin": "node --env-file=.env scripts/promoteUserToAdmin.js",
-    "seed:admin-review-queue": "node --env-file=.env scripts/seedAdminReviewQueue.js"
+    "seed:admin-review-queue": "node --env-file=.env scripts/seedAdminReviewQueue.js",
+    "seed:admin-application-detail": "node --env-file=.env scripts/seedAdminApplicationDetail.js"
   },
   "keywords": [
     "kyc",

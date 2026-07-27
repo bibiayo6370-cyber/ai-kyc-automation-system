@@ -7,6 +7,7 @@ import AdminReviewQueuePage from "@/pages/AdminReviewQueuePage";
 import CustomerDashboardPage from "@/pages/CustomerDashboardPage";
 import LoginPage from "@/pages/LoginPage";
 import UnauthorizedPage from "@/pages/UnauthorizedPage";
+import AdminApplicationDetailPlaceholderPage from "@/pages/AdminApplicationDetailPlaceholderPage";
 
 function RoleRedirect() {
   const { isAuthenticated, isLoading, user } = useAuth();
@@ -35,6 +36,10 @@ export default function App() {
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<AdminDashboardPage />} />
           <Route path="review-queue" element={<AdminReviewQueuePage />} />
+          <Route
+            path="applications/:applicationId"
+            element={<AdminApplicationDetailPlaceholderPage />}
+          />
         </Route>
       </Route>
 

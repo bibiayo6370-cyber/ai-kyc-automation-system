@@ -1,7 +1,9 @@
 import { Navigate, Route, Routes } from "react-router";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
 import useAuth from "@/hooks/useAuth";
+import AdminLayout from "@/layouts/AdminLayout";
 import AdminDashboardPage from "@/pages/AdminDashboardPage";
+import AdminReviewQueuePage from "@/pages/AdminReviewQueuePage";
 import CustomerDashboardPage from "@/pages/CustomerDashboardPage";
 import LoginPage from "@/pages/LoginPage";
 import UnauthorizedPage from "@/pages/UnauthorizedPage";
@@ -30,7 +32,10 @@ export default function App() {
       <Route path="/unauthorized" element={<UnauthorizedPage />} />
 
       <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
-        <Route path="/admin" element={<AdminDashboardPage />} />
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<AdminDashboardPage />} />
+          <Route path="review-queue" element={<AdminReviewQueuePage />} />
+        </Route>
       </Route>
 
       <Route element={<ProtectedRoute allowedRoles={["customer"]} />}>

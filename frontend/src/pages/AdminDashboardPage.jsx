@@ -1,36 +1,77 @@
-import { ShieldCheck } from "lucide-react";
-import { useNavigate } from "react-router";
+import { ClipboardCheck, ShieldCheck, UserCheck } from "lucide-react";
+import { Link } from "react-router";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import useAuth from "@/hooks/useAuth";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+
+const summaryItems = [
+  {
+    title: "KYC Review Queue",
+    description: "Applications awaiting Administrator review.",
+    icon: ClipboardCheck
+  },
+  {
+    title: "Secure Decisions",
+    description: "Approve, reject or retain applications under review.",
+    icon: ShieldCheck
+  },
+  {
+    title: "Customer Verification",
+    description: "Review identity information and automated risk results.",
+    icon: UserCheck
+  }
+];
 
 export default function AdminDashboardPage() {
-  const { logout, user } = useAuth();
-  const navigate = useNavigate();
-
-  function handleLogout() {
-    logout();
-    navigate("/login", { replace: true });
-  }
-
   return (
-    <main className="min-h-screen bg-slate-950 px-6 py-16 text-slate-100">
-      <Card className="mx-auto max-w-2xl border-slate-800 bg-slate-900 text-slate-100">
+    <section className="mx-auto max-w-7xl space-y-8">
+      <div>
+        <p className="text-sm font-medium text-emerald-400">
+          Administrator overview
+        </p>
+        <h2 className="mt-2 text-3xl font-semibold tracking-tight text-slate-100">
+          KYC Review Workspace
+        </h2>
+        <p className="mt-3 max-w-3xl text-slate-400">
+          Review submitted customer applications, assess automated risk results
+          and record controlled compliance decisions.
+        </p>
+      </div>
+
+      <div className="grid gap-5 md:grid-cols-3">
+        {summaryItems.map(({ title, description, icon: Icon }) => (
+          <Card
+            key={title}
+            className="border-slate-800 bg-slate-900 text-slate-100"
+          >
+            <CardHeader>
+              <div className="mb-3 flex size-11 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-400">
+                <Icon className="size-6" />
+              </div>
+
+              <CardTitle>{title}</CardTitle>
+              <CardDescription className="text-slate-400">
+                {description}
+              </CardDescription>
+            </CardHeader>
+          </Card>
+        ))}
+      </div>
+
+      <Card className="border-slate-800 bg-slate-900 text-slate-100">
         <CardHeader>
-          <ShieldCheck className="mb-4 size-10 text-emerald-400" />
-          <CardTitle>Administrator route access verified</CardTitle>
+          <CardTitle>Administrator review queue</CardTitle>
+          <CardDescription className="text-slate-400">
+            The application queue will display high-, medium- and low-risk KYC
+            submissions in priority order.
+          </CardDescription>
         </CardHeader>
 
-        <CardContent className="space-y-4">
-          <div className="rounded-lg border border-slate-800 bg-slate-950 p-4">
-            <p className="font-medium">{user.fullName}</p>
-            <p className="text-sm text-slate-400">{user.email}</p>
-            <p className="mt-2 text-sm text-emerald-400">Role: {user.role}</p>
-          </div>
-
-          <Button onClick={handleLogout}>Sign out</Button>
+        <CardContent>
+          <Button asChild>
+            <Link to="/admin/review-queue">Open review queue</Link>
+          </Button>
         </CardContent>
       </Card>
-    </main>
+    </section>
   );
 }

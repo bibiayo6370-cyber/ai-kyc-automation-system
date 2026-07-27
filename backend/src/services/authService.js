@@ -4,12 +4,12 @@ import User from "../models/User.js";
 import { generateToken } from "../utils/jwt.js";
 
 export async function registerUser(userData) {
-  const {
-    fullName,
-    email,
-    phoneNumber,
-    password
-  } = userData;
+
+  if (Object.prototype.hasOwnProperty.call(userData, "role")) {
+    throw new Error("Role cannot be assigned through public registration");
+  }
+
+  const { fullName, email, phoneNumber, password } = userData;
 
   // Check if the email is existing 
   const existingEmail = await User.findOne({ email });
@@ -56,6 +56,10 @@ export async function loginUser(email, password) {
 
   if (!passwordMatch) {
     throw new Error("Invalid email or password");
+  }
+
+  if (user.status !== "active") {
+    throw new Error("User account is not active");
   }
 
   const token = generateToken(user);

@@ -36,7 +36,8 @@
     "verify:admin-application-detail": "node --env-file=.env scripts/verifyAdminApplicationDetail.js",
     "verify:admin-decision": "node --env-file=.env scripts/verifyAdminDecisionService.js",
     "verify:admin-decision-endpoint": "node --env-file=.env scripts/verifyAdminDecisionEndpoint.js",
-    "verify:customer-status": "node --env-file=.env scripts/verifyCustomerApplicationStatus.js"
+    "verify:customer-status": "node --env-file=.env scripts/verifyCustomerApplicationStatus.js",
+    "promote:admin": "node --env-file=.env scripts/promoteUserToAdmin.js"
   },
   "keywords": [
     "kyc",

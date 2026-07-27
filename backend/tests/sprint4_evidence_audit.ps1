@@ -39,10 +39,10 @@ function Get-Sha256Hash {
 
 # tests/ is inside backend/, so move up twice to reach repository root.
 $backendDirectory = Split-Path $PSScriptRoot -Parent
-#$repositoryRoot = Split-Path $backendDirectory -Parent
+$repositoryRoot = Split-Path $backendDirectory -Parent
 
-$evidenceDirectory = Join-Path $backendDirectory "docs/screenshots/sprint-4"
-$reportDirectory = Join-Path $backendDirectory "docs/reports/sprint-4"
+$evidenceDirectory = Join-Path $repositoryRoot "docs/screenshots/sprint-4"
+$reportDirectory = Join-Path $repositoryRoot "docs/reports/sprint-4"
 $reportPath = Join-Path $reportDirectory "sprint-4-evidence-register.md"
 
 <# Write-Host "Evidence directory: $evidenceDirectory"
@@ -65,7 +65,7 @@ $records = foreach ($file in $imageFiles) {
     [System.Text.RegularExpressions.RegexOptions]::IgnoreCase
   )
 
- $hash = Get-Sha256Hash -Path $file.FullName
+$hash = Get-Sha256Hash -Path $file.FullName
 
   if ($nameMatch.Success) {
     $description = $nameMatch.Groups["description"].Value -replace "[_-]+", " "

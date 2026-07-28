@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { FilePlus2, RefreshCw } from "lucide-react";
 import { Link, useLocation } from "react-router";
+import DocumentUploadForm from "@/components/customer/DocumentUploadForm";
 import CustomerDecisionDetails from "@/components/customer/CustomerDecisionDetails";
 import CustomerRiskSummary from "@/components/customer/CustomerRiskSummary";
 import CustomerStatusCard from "@/components/customer/CustomerStatusCard";
@@ -11,6 +12,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { fetchCustomerApplicationStatus, fetchMyKycApplication } from "@/services/customerKycService";
 
 export default function CustomerDashboardPage() {
+  const [documentUploadResult, setDocumentUploadResult] = useState(null);
   const [status, setStatus] = useState(null);
   const [hasApplication, setHasApplication] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
@@ -68,8 +70,19 @@ export default function CustomerDashboardPage() {
     return () => controller.abort();
   }, [reloadKey]);
 
+  function handleDocumentUploaded(result) {
+    setDocumentUploadResult(result);
+    setReloadKey((value) => value + 1);
+  }
+
   return (
     <section className="space-y-6">
+      {documentUploadResult && (
+        <Alert className="border-emerald-500/30 bg-emerald-500/10 text-emerald-200">
+          <AlertDescription>{documentUploadResult.message}</AlertDescription>
+        </Alert>
+      )}
+
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="text-sm font-medium text-emerald-400">
@@ -159,6 +172,11 @@ export default function CustomerDashboardPage() {
       {!isLoading && !errorMessage && status && (
         <>
           <CustomerStatusCard status={status} />
+
+          {status.applicationStatus === "pending" && (
+            <DocumentUploadForm applicationId={status.applicationId} onUploaded={handleDocumentUploaded} />
+          )}
+
           <CustomerRiskSummary assessment={status.riskAssessment} />
           <CustomerDecisionDetails decision={status.decision} />
         </>

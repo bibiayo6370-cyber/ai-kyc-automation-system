@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from "react-router";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
 import useAuth from "@/hooks/useAuth";
 import AdminLayout from "@/layouts/AdminLayout";
+import CustomerApplicationCreatePage from "@/pages/CustomerApplicationCreatePage";
 import AdminDashboardPage from "@/pages/AdminDashboardPage";
 import AdminReviewQueuePage from "@/pages/AdminReviewQueuePage";
 import CustomerDashboardPage from "@/pages/CustomerDashboardPage";
@@ -47,6 +48,7 @@ export default function App() {
       <Route element={<ProtectedRoute allowedRoles={["customer"]} />}>
         <Route path="/customer" element={<CustomerLayout />}>
           <Route index element={<CustomerDashboardPage />} />
+          <Route path="applications/new" element={<CustomerApplicationCreatePage />} />
         </Route>
       </Route>
 

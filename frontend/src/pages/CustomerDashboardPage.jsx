@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { FilePlus2, RefreshCw } from "lucide-react";
+import { Link, useLocation } from "react-router";
 import CustomerDecisionDetails from "@/components/customer/CustomerDecisionDetails";
 import CustomerRiskSummary from "@/components/customer/CustomerRiskSummary";
 import CustomerStatusCard from "@/components/customer/CustomerStatusCard";
@@ -15,6 +16,9 @@ export default function CustomerDashboardPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const [reloadKey, setReloadKey] = useState(0);
+
+  const location = useLocation();
+  const applicationCreated = Boolean(location.state?.applicationCreated);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -94,6 +98,12 @@ export default function CustomerDashboardPage() {
         </Button>
       </div>
 
+      {applicationCreated && (
+        <Alert className="border-emerald-500/30 bg-emerald-500/10 text-emerald-200">
+          <AlertDescription>Your KYC application was created successfully.</AlertDescription>
+        </Alert>
+      )}
+
       {errorMessage && (
         <Alert variant="destructive">
           <AlertDescription className="flex flex-wrap items-center justify-between gap-3">
@@ -134,6 +144,14 @@ export default function CustomerDashboardPage() {
             <p className="mt-2 max-w-md text-sm text-slate-400">
               A submitted KYC application will appear here for tracking.
             </p>
+
+            <Button asChild className="mt-5">
+              <Link to="/customer/applications/new">
+                <FilePlus2 className="size-4" />
+                Create KYC application
+              </Link>
+            </Button>
+
           </CardContent>
         </Card>
       )}

@@ -8,6 +8,7 @@ import CustomerDashboardPage from "@/pages/CustomerDashboardPage";
 import LoginPage from "@/pages/LoginPage";
 import UnauthorizedPage from "@/pages/UnauthorizedPage";
 import AdminApplicationDetailPage from "@/pages/AdminApplicationDetailPage";
+import CustomerLayout from "@/layouts/CustomerLayout";
 
 function RoleRedirect() {
   const { isAuthenticated, isLoading, user } = useAuth();
@@ -44,7 +45,9 @@ export default function App() {
       </Route>
 
       <Route element={<ProtectedRoute allowedRoles={["customer"]} />}>
-        <Route path="/customer" element={<CustomerDashboardPage />} />
+        <Route path="/customer" element={<CustomerLayout />}>
+          <Route index element={<CustomerDashboardPage />} />
+        </Route>
       </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />

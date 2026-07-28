@@ -17,3 +17,21 @@ export async function fetchAdministratorApplicationDetail({ applicationId, signa
 
   return data;
 }
+
+export async function submitAdministratorDecision({
+  applicationId,
+  action,
+  reviewComments
+}) {
+  const payload = { action };
+  const normalizedComments = reviewComments?.trim();
+
+  if (normalizedComments) payload.reviewComments = normalizedComments;
+
+  const { data } = await api.patch(
+    `/admin/kyc/applications/${encodeURIComponent(applicationId)}/decision`,
+    payload
+  );
+
+  return data;
+}

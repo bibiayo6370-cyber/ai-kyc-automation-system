@@ -7,10 +7,12 @@ import ApplicationStatusBadge from "@/components/admin/ApplicationStatusBadge";
 import DocumentOcrDetails from "@/components/admin/DocumentOcrDetails";
 import ApplicationAuditTimeline from "@/components/admin/ApplicationAuditTimeline";
 import RiskAssessmentDetails from "@/components/admin/RiskAssessmentDetails";
+import AdministratorDecisionPanel from "@/components/admin/AdministratorDecisionPanel";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { fetchAdministratorApplicationDetail } from "@/services/adminKycService";
 import { formatDate } from "@/lib/formatters";
+
 
 export default function AdminApplicationDetailPage() {
   const { applicationId } = useParams();
@@ -116,6 +118,14 @@ export default function AdminApplicationDetailPage() {
           <DocumentOcrDetails document={detail.document} />
 
           <RiskAssessmentDetails assessment={detail.riskAssessment} />
+
+          <AdministratorDecisionPanel
+            applicationId={detail.application.id}
+            applicationStatus={detail.application.applicationStatus}
+            onDecisionRecorded={() =>
+              setReloadKey((value) => value + 1)
+            }
+          />
 
           <ApplicationAuditTimeline auditTrail={detail.auditTrail} />
         </>

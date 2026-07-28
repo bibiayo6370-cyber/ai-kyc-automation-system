@@ -52,6 +52,7 @@ import {
 
 const createdUserIds = [];
 const createdApplicationIds = [];
+const queueFixtureApplicationIds = [];
 
 let server;
 
@@ -254,11 +255,14 @@ async function createQueueFixture({
       reviewRequired
     });
 
+  queueFixtureApplicationIds.push(String(application._id));
+
   return {
     user,
     application,
     assessment
   };
+
 }
 
 function createToken(
@@ -518,11 +522,9 @@ try {
     await requestJson({
       baseUrl,
 
-      path:
-        "/api/v1/admin/kyc/review-queue",
+      path: "/api/v1/admin/kyc/review-queue?page=1&limit=50",
 
-      token:
-        adminToken
+      token: adminToken
     });
 
   assert.equal(
@@ -530,13 +532,21 @@ try {
     200
   );
 
+  const fixtureQueue =
+    queueResult.body.queue.filter(
+      item =>
+        queueFixtureApplicationIds.includes(
+          String(item.applicationId)
+        )
+    );
+
   assert.equal(
-    queueResult.body.queue.length,
+    fixtureQueue.length,
     3
   );
 
   assert.deepEqual(
-    queueResult.body.queue.map(
+    fixtureQueue.map(
       item =>
         item
           .riskAssessment
@@ -549,39 +559,33 @@ try {
     ]
   );
 
-  assert.equal(
+  assert.ok(
     queueResult
       .body
       .pagination
-      .totalItems,
-    3
+      .totalItems >= 3
   );
 
   assert.equal(
     "passwordHash" in
-    queueResult
-      .body
-      .queue[0]
-      .customer,
+    fixtureQueue[0].customer,
     false
   );
 
   assert.equal(
     "riskFactors" in
-    queueResult
-      .body
-      .queue[0]
-      .riskAssessment,
+    fixtureQueue[0].riskAssessment,
     false
   );
 
   assert.equal(
     "watchlistScreening" in
-    queueResult
-      .body
-      .queue[0]
-      .riskAssessment,
+    fixtureQueue[0].riskAssessment,
     false
+  );
+
+  console.log(
+    `Verification fixtures found: ${fixtureQueue.length}; total review queue records: ${queueResult.body.pagination.totalItems}`
   );
 
   console.log(
@@ -593,7 +597,7 @@ try {
       baseUrl,
 
       path:
-        "/api/v1/admin/kyc/review-queue?riskLevel=high",
+        "/api/v1/admin/kyc/review-queue?riskLevel=high&limit=50",
 
       token:
         adminToken
@@ -604,18 +608,36 @@ try {
     200
   );
 
+  const highRiskFixtureQueue =
+    highRiskResult.body.queue.filter(
+      item =>
+        queueFixtureApplicationIds.includes(
+          String(item.applicationId)
+        )
+    );
+
   assert.equal(
-    highRiskResult.body.queue.length,
+    highRiskFixtureQueue.length,
     1
   );
 
   assert.equal(
-    highRiskResult
-      .body
-      .queue[0]
-      .riskAssessment
-      .riskLevel,
-    RISK_LEVELS.HIGH
+    String(
+      highRiskFixtureQueue[0].applicationId
+    ),
+    String(
+      highScenario.application._id
+    )
+  );
+
+  assert.ok(
+    highRiskResult.body.queue.every(
+      item =>
+        item
+          .riskAssessment
+          .riskLevel ===
+        RISK_LEVELS.HIGH
+    )
   );
 
   const paginationResult =
@@ -639,12 +661,32 @@ try {
     2
   );
 
+  const {
+    page: returnedPage,
+    limit: returnedLimit,
+    totalItems,
+    totalPages
+  } = paginationResult.body.pagination;
+
   assert.equal(
-    paginationResult
-      .body
-      .pagination
-      .totalPages,
+    returnedPage,
+    1
+  );
+
+  assert.equal(
+    returnedLimit,
     2
+  );
+
+  assert.ok(
+    totalItems >= 3
+  );
+
+  assert.equal(
+    totalPages,
+    Math.ceil(
+      totalItems / returnedLimit
+    )
   );
 
   console.log(
@@ -701,8 +743,7 @@ try {
     await requestJson({
       baseUrl,
 
-      path:
-        "/api/v1/admin/kyc/review-queue",
+      path: "/api/v1/admin/kyc/review-queue?page=1&limit=50",
 
       token:
         createToken(

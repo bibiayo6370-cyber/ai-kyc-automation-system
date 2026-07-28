@@ -40,7 +40,8 @@
     "promote:admin": "node --env-file=.env scripts/promoteUserToAdmin.js",
     "seed:admin-review-queue": "node --env-file=.env scripts/seedAdminReviewQueue.js",
     "seed:admin-application-detail": "node --env-file=.env scripts/seedAdminApplicationDetail.js",
-    "seed:customer-status": "node --env-file=.env scripts/seedCustomerStatusScenarios.js"
+    "seed:customer-status": "node --env-file=.env scripts/seedCustomerStatusScenarios.js",
+    "cleanup:customer-status": "node --env-file=.env scripts/cleanupCustomerStatusScenarios.js"
   },
   "keywords": [
     "kyc",

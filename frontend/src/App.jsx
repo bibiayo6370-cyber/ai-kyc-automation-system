@@ -10,7 +10,7 @@ import UnauthorizedPage from "@/pages/UnauthorizedPage";
 import AdminApplicationDetailPage from "@/pages/AdminApplicationDetailPage";
 import CustomerLayout from "@/layouts/CustomerLayout";
 
-function RoleRedirect() {
+export function RoleRedirect() {
   const { isAuthenticated, isLoading, user } = useAuth();
 
   if (isLoading) {

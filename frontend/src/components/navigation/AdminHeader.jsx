@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import useAuth from "@/hooks/useAuth";
 
-export default function AdminHeader({ onOpenNavigation }) {
+export default function AdminHeader({ isNavigationOpen, onOpenNavigation }) {
   const { logout, user } = useAuth();
   const navigate = useNavigate();
 
@@ -22,6 +22,8 @@ export default function AdminHeader({ onOpenNavigation }) {
           size="icon"
           className="border-slate-700 bg-transparent text-slate-200 hover:bg-slate-800 hover:text-white md:hidden"
           aria-label="Open Administrator navigation"
+          aria-controls="administrator-navigation"
+          aria-expanded={isNavigationOpen}
           onClick={onOpenNavigation}
         >
           <Menu className="size-5" />
@@ -56,6 +58,7 @@ export default function AdminHeader({ onOpenNavigation }) {
           variant="outline"
           className="border-slate-700 bg-transparent text-slate-200 hover:bg-slate-800 hover:text-white"
           onClick={handleLogout}
+          aria-label="Sign out of Administrator portal"
         >
           <LogOut className="size-4" />
           <span className="hidden sm:inline">Sign out</span>

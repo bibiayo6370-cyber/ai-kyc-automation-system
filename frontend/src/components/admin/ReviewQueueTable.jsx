@@ -42,8 +42,8 @@ function formatRiskScore(value) {
 
 export default function ReviewQueueTable({ queue }) {
   return (
-    <div className="overflow-x-auto rounded-xl border border-slate-800 bg-slate-900">
-      <Table>
+    <div role="region" aria-label="Administrator KYC review queue" tabIndex="0" className="overflow-x-auto rounded-xl border border-slate-800 bg-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400">
+      <Table className="min-w-225">
         <TableHeader>
           <TableRow className="border-slate-800 hover:bg-transparent">
             <TableHead className="min-w-64 text-slate-400">

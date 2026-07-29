@@ -37,10 +37,7 @@ export default function AdminSidebar({ isMobileOpen, onClose }) {
         />
       )}
 
-      <aside
-        className={`fixed inset-y-0 left-0 z-50 flex w-72 flex-col border-r border-slate-800 bg-slate-900 transition-transform md:static md:z-auto md:translate-x-0 ${isMobileOpen ? "translate-x-0" : "-translate-x-full"
-          }`}
-      >
+      <aside id="administrator-navigation" aria-label="Administrator sidebar" className={`fixed inset-y-0 left-0 z-50 flex w-72 flex-col border-r border-slate-800 bg-slate-900 transition-transform md:static md:z-auto md:translate-x-0 ${isMobileOpen ? "translate-x-0" : "-translate-x-full"}`}>
         <div className="flex h-20 items-center justify-between border-b border-slate-800 px-5">
           <div className="flex items-center gap-3">
             <div className="flex size-10 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-400">

@@ -27,7 +27,22 @@
     "verify:risk-high": "node --env-file=.env scripts/verifyHighRiskScenarios.js",
     "verify:risk-security": "node --env-file=.env scripts/verifyRiskSecurity.js",
     "verify:sprint4-regression": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File tests/regression_tests.ps1",
-    "verify:sprint4-evidence": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File tests/sprint4_evidence_audit.ps1 -ExpectedCount 27"
+    "verify:sprint4-evidence": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File tests/sprint4_evidence_audit.ps1 -ExpectedCount 27",
+    "verify:kyc-review-constants": "node scripts/verifyKycReviewConstants.js",
+    "verify:kyc-review-model": "node scripts/verifyKycApplicationReviewValidation.js",
+    "verify:audit-log": "node --env-file=.env scripts/verifyAuditLogService.js",
+    "verify:admin-authorization": "node --env-file=.env scripts/verifyAdminAuthorization.js",
+    "verify:admin-review-queue": "node --env-file=.env scripts/verifyAdminReviewQueue.js",
+    "verify:admin-application-detail": "node --env-file=.env scripts/verifyAdminApplicationDetail.js",
+    "verify:admin-decision": "node --env-file=.env scripts/verifyAdminDecisionService.js",
+    "verify:admin-decision-endpoint": "node --env-file=.env scripts/verifyAdminDecisionEndpoint.js",
+    "verify:customer-status": "node --env-file=.env scripts/verifyCustomerApplicationStatus.js",
+    "promote:admin": "node --env-file=.env scripts/promoteUserToAdmin.js",
+    "seed:admin-review-queue": "node --env-file=.env scripts/seedAdminReviewQueue.js",
+    "seed:admin-application-detail": "node --env-file=.env scripts/seedAdminApplicationDetail.js",
+    "seed:customer-status": "node --env-file=.env scripts/seedCustomerStatusScenarios.js",
+    "cleanup:customer-status": "node --env-file=.env scripts/cleanupCustomerStatusScenarios.js",
+    "verify:sprint-5-evidence": "powershell -NoProfile -ExecutionPolicy Bypass -File tests/sprint5_evidence_audit.ps1 -ExpectedCount 42"
   },
   "keywords": [
     "kyc",

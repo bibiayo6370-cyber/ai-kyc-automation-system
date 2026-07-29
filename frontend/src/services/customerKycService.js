@@ -1,0 +1,30 @@
+import api from "@/lib/api";
+
+export async function createCustomerKycApplication(payload) {
+  const { data } = await api.post("/applications", payload);
+  return data;
+}
+
+export async function fetchMyKycApplication({ signal } = {}) {
+  const { data } = await api.get("/applications", { signal });
+  return data;
+}
+
+export async function uploadCustomerKycDocument({ applicationId, documentType, file, onUploadProgress }) {
+  const formData = new FormData();
+  formData.append("documentType", documentType);
+  formData.append("document", file, file.name);
+
+  const { data } = await api.post(`/applications/${encodeURIComponent(applicationId)}/documents`, formData, { onUploadProgress });
+  return data;
+}
+
+export async function fetchCustomerApplicationStatus({ applicationId, signal }) {
+  const { data } = await api.get(
+    `/applications/${encodeURIComponent(applicationId)}/status`,
+    { signal }
+  );
+
+  return data;
+}
+

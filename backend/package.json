@@ -41,7 +41,8 @@
     "seed:admin-review-queue": "node --env-file=.env scripts/seedAdminReviewQueue.js",
     "seed:admin-application-detail": "node --env-file=.env scripts/seedAdminApplicationDetail.js",
     "seed:customer-status": "node --env-file=.env scripts/seedCustomerStatusScenarios.js",
-    "cleanup:customer-status": "node --env-file=.env scripts/cleanupCustomerStatusScenarios.js"
+    "cleanup:customer-status": "node --env-file=.env scripts/cleanupCustomerStatusScenarios.js",
+    "verify:sprint-5-evidence": "powershell -NoProfile -ExecutionPolicy Bypass -File tests/sprint5_evidence_audit.ps1 -ExpectedCount 42"
   },
   "keywords": [
     "kyc",

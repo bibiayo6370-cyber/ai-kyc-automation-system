@@ -6,7 +6,7 @@
     "node": ">=22.0.0"
   },
   "scripts": {
-    "start": "node src/server.js",
+    "start": "node --env-file=.env src/server.js",
     "dev": "node --watch --env-file=.env src/server.js",
     "verify:ocr": "node scripts/verifyOcrDependencies.js",
     "verify:gridfs": "node --env-file=.env scripts/verifyGridFsService.js",
